@@ -1,7 +1,10 @@
-local lspconfig = require "lspconfig"
-local util = require "lspconfig/util"
+dofile(vim.g.base46_cache .. "lsp")
 
-on_attach = function(client, bufnr)
+local M = {}
+local utils = require("core.utils")
+
+-- export on_attach & capabilities for custom lspconfigs
+M.on_attach = function(client, bufnr)
   utils.load_mappings("lspconfig", { buffer = bufnr })
 
   if client.server_capabilities.signatureHelpProvider then
@@ -9,15 +12,16 @@ on_attach = function(client, bufnr)
   end
 end
 
-on_init = function(client, _)
-  if not utils.load_config().ui.lsp_semantic_tokens and client.supports_method "textDocument/semanticTokens" then
+-- disable semantic tokens
+M.on_init = function(client, _)
+  if client.supports_method("textDocument/semanticTokens") then
     client.server_capabilities.semanticTokensProvider = nil
   end
 end
 
-capabilities = vim.lsp.protocol.make_client_capabilities()
+M.capabilities = vim.lsp.protocol.make_client_capabilities()
 
-capabilities.textDocument.completion.completionItem = {
+M.capabilities.textDocument.completion.completionItem = {
   documentationFormat = { "markdown", "plaintext" },
   snippetSupport = true,
   preselectSupport = true,
@@ -35,36 +39,61 @@ capabilities.textDocument.completion.completionItem = {
   },
 }
 
+local lspconfig = require("lspconfig")
+local util = require("lspconfig/util")
 
 local servers = {
-  "lua_ls",
   "tsserver",
   "eslint",
   "pylsp",
 }
 
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
+  lspconfig[lsp].setup({
+    on_attach = M.on_attach,
+    capabilities = M.capabilities,
+  })
 end
 
-lspconfig.elixirls.setup {
+lspconfig.lua_ls.setup({
+  on_init = M.on_init,
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        library = {
+          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+          [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+          [vim.fn.stdpath("data") .. "/lazy/ui/nvchad_types"] = true,
+          [vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy"] = true,
+        },
+        maxPreload = 100000,
+        preloadFileSize = 10000,
+      },
+    },
+  },
+})
+
+lspconfig.elixirls.setup({
   cmd = { "elixir-ls" },
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+})
 
-lspconfig.tsserver.setup {
+lspconfig.tsserver.setup({
   cmd = { "typescript-language-server", "--stdio" },
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+})
 
-lspconfig.gopls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
+lspconfig.gopls.setup({
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
   cmd = { "gopls" },
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
   root_dir = util.root_pattern("go.work", "go.mod", ".git"),
@@ -78,30 +107,8 @@ lspconfig.gopls.setup {
       gofumpt = false,
     },
   },
-}
+})
 
-lspconfig.eslint.setup {}
+lspconfig.eslint.setup({})
 
-lspconfig.lua_ls.setup {
-  on_init = on_init,
-  on_attach = on_attach,
-  capabilities = capabilities,
-
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = {
-        library = {
-          [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-          [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-          [vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types"] = true,
-          [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
-        },
-        maxPreload = 100000,
-        preloadFileSize = 10000,
-      },
-    },
-  },
-}
+return M

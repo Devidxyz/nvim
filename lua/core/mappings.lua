@@ -1,29 +1,5 @@
 local M = {}
 
--- remove ctrl navigation
--- M.disabled = {
---   i = {
---     -- disable ctrl navigation
---     ["<C-h>"] = "",
---     ["<C-l>"] = "",
---     ["<C-j>"] = "",
---     ["<C-k>"] = "",
---   },
---   n = {
---     -- disable ctrl navigation
---     ["<C-h>"] = "",
---     ["<C-l>"] = "",
---     ["<C-j>"] = "",
---     ["<C-k>"] = "",
---     -- disable new buffer (use C-b)
---     ["<leader>b"] = "",
---     -- disable new terminal
---     ["<leader>h"] = "",
---     ["<leader>v"] = "",
---     ["<leader>ca"] = "",
---   },
--- }
-
 M.general = {
   n = {
     ["<Esc>"] = { "<cmd> noh <CR>", "Clear highlights" },
@@ -31,7 +7,6 @@ M.general = {
     ["<C-u>"] = { "<C-u>zz", "Scroll windows upwards and center cursor" },
     ["n"] = { "nzzzv", "Jump to next result and center cursor" },
     ["N"] = { "Nzzzv", "Jump to previous result and center cursor" },
-    ["<C-s>"] = { "<cmd> w <CR>", "Scroll windows upwards and center cursor" },
     ["Q"] = { "<cmd> qa <CR>", "Quit all (qa)" },
     ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
 
@@ -144,7 +119,7 @@ M.nvimtree = {
   plugin = true,
   n = {
     ["<A-n>"] = { "<cmd> NvimTreeToggle <CR>", "Toggle nvimtree" },
-    ["<leader>n"] = { "<cmd> NvimTreeToggle <CR>", "Toggle nvimtree" },
+    -- ["<leader>n"] = { "<cmd> NvimTreeToggle <CR>", "Toggle nvimtree" },
     ["<A-e>"] = { "<cmd> NvimTreeFocus <CR>", "Focus nvimtree" },
     ["<leader>e"] = { "<cmd> NvimTreeFocus <CR>", "Focus nvimtree" },
   },
@@ -312,6 +287,12 @@ M.lspconfig = {
       end,
       "LSP definitions fzf",
     },
+    ["K"] = {
+      function()
+        vim.lsp.buf.hover()
+      end,
+      "LSP hover",
+    },
     ["L"] = {
       function()
         vim.diagnostic.open_float()
@@ -372,9 +353,15 @@ M.lspconfig = {
       end,
       "Find files",
     },
+    ["<leader>fa"] = { -- legacy, because habit
+      function()
+        require("fzf-lua").files()
+      end,
+      "Find files",
+    },
     ["<leader>ft"] = {
       function()
-        require("fzf-lua").tabs()
+        require("fzf-lua").buffers()
       end,
       "Find tabs",
     },

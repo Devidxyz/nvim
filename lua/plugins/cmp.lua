@@ -2,6 +2,49 @@ local cmp = require("cmp")
 
 dofile(vim.g.base46_cache .. "cmp")
 
+local icons = {
+  Array = "[]",
+  Boolean = "",
+  Calendar = "",
+  Class = "󰠱",
+  Codeium = "",
+  Color = "󰏘",
+  Constant = "󰏿",
+  Constructor = "",
+  Copilot = "",
+  Enum = "",
+  EnumMember = "",
+  Event = "",
+  Field = "󰜢",
+  File = "󰈚",
+  Folder = "󰉋",
+  Function = "󰆧",
+  Interface = "",
+  Keyword = "󰌋",
+  Method = "󰆧",
+  Module = "",
+  Namespace = "󰌗",
+  Null = "󰟢",
+  Number = "",
+  Object = "󰅩",
+  Operator = "󰆕",
+  Package = "",
+  Property = "󰜢",
+  Reference = "󰈇",
+  Snippet = "",
+  String = "󰉿",
+  Struct = "󰙅",
+  TabNine = "",
+  Table = "",
+  Tag = "",
+  Text = "󰉿",
+  TypeParameter = "󰊄",
+  Unit = "󰑭",
+  Value = "󰎠",
+  Variable = "󰀫",
+  Watch = "󰥔",
+}
+
 local cmp_ui = {
   icons = true,
   lspkind_text = true,
@@ -20,22 +63,21 @@ local formatting_style = {
   -- default fields order i.e completion word + item.kind + item.kind icons
   fields = field_arrangement[cmp_style] or { "abbr", "kind", "menu" },
 
-  -- TODOd
-  --   format = function(_, item)
-  --     local icons = require "nvchad.icons.lspkind"
-  --     local icon = (cmp_ui.icons and icons[item.kind]) or ""
-  --
-  --     if cmp_style == "atom" or cmp_style == "atom_colored" then
-  --       icon = " " .. icon .. " "
-  --       item.menu = cmp_ui.lspkind_text and "   (" .. item.kind .. ")" or ""
-  --       item.kind = icon
-  --     else
-  --       icon = cmp_ui.lspkind_text and (" " .. icon .. " ") or icon
-  --       item.kind = string.format("%s %s", icon, cmp_ui.lspkind_text and item.kind or "")
-  --     end
-  --
-  --     return item
-  --end,
+  -- TODO
+  format = function(_, item)
+    local icon = (cmp_ui.icons and icons[item.kind]) or ""
+
+    if cmp_style == "atom" or cmp_style == "atom_colored" then
+      icon = " " .. icon .. " "
+      item.menu = cmp_ui.lspkind_text and "   (" .. item.kind .. ")" or ""
+      item.kind = icon
+    else
+      icon = cmp_ui.lspkind_text and (" " .. icon .. " ") or icon
+      item.kind = string.format("%s %s", icon, cmp_ui.lspkind_text and item.kind or "")
+    end
+
+    return item
+  end,
 }
 
 local function border(hl_name)
@@ -79,39 +121,18 @@ local options = {
     ["<C-p>"] = cmp.mapping.select_prev_item(),
     ["<C-n>"] = cmp.mapping.select_next_item(),
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-u>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
     ["<Up>"] = cmp.mapping.select_prev_item(),
     ["<Down>"] = cmp.mapping.select_next_item(),
-    ["<Tab>"] = cmp.mapping.confirm({ select = true }),
-    ["<CR>"] = cmp.mapping.confirm({
+    ["<Tab>"] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Insert,
       select = true,
     }),
-    ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif require("luasnip").expand_or_jumpable() then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
-      else
-        fallback()
-      end
-    end, {
-      "i",
-      "s",
-    }),
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif require("luasnip").jumpable(-1) then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
-      else
-        fallback()
-      end
-    end, {
-      "i",
-      "s",
+    ["<CR>"] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = true,
     }),
   },
   sources = {

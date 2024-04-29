@@ -168,6 +168,7 @@ local plugins = {
   -- lspconfig
   {
     "neovim/nvim-lspconfig",
+    event = "User FilePost",
 
     dependencies = {
       "jose-elias-alvarez/null-ls.nvim",
@@ -292,13 +293,13 @@ local plugins = {
   },
 
   -- don't know if this is working
-  {
-    "tiagovla/scope.nvim",
-    lazy = false,
-    config = function(_, opts)
-      require("scope").setup(opts)
-    end,
-  },
+  -- {
+  --   "tiagovla/scope.nvim",
+  --   lazy = false,
+  --   config = function(_, opts)
+  --     require("scope").setup(opts)
+  --   end,
+  -- },
 
   -- tabs
   {
@@ -309,7 +310,7 @@ local plugins = {
       options = {
         numbers = "ordinal",
         always_show_bufferline = true,
-        separator_style = "slant",
+        -- separator_style = "slant",
         diagnostics = "nvim_lsp",
         diagnostics_indicator = function(count, level, diagnostics_dict, context)
           local icon = level:match("error") and " " or " "
@@ -365,7 +366,7 @@ local plugins = {
   {
     "wfxr/minimap.vim",
     build = "cargo install --locked code-minimap",
-    lazy = false,
+    -- lazy = false,
     cmd = { "Minimap", "MinimapClose", "MinimapToggle", "MinimapRefresh", "MinimapUpdateHighlight" },
     init = function()
       vim.cmd("let g:minimap_width = 10")
@@ -400,7 +401,7 @@ local plugins = {
   -- context for functions, nested logic
   {
     "nvim-treesitter/nvim-treesitter-context",
-    lazy = false,
+    event = { "BufReadPost", "BufNewFile" },
   },
 
   -- god
@@ -417,13 +418,13 @@ local plugins = {
   -- multi cursor support
   {
     "mg979/vim-visual-multi",
-    lazy = false,
+    event = { "BufReadPost", "BufNewFile" },
   },
 
   -- open in github
   {
     "almo7aya/openingh.nvim",
-    lazy = false,
+    event = { "BufReadPost", "BufNewFile" },
   },
 
   -- go snippets
@@ -480,6 +481,17 @@ local plugins = {
     config = function(_, opts)
       dofile(vim.g.base46_cache .. "git")
       require("gitsigns").setup(opts)
+    end,
+  },
+
+  -- status line
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("lualine").setup({
+        theme = "palenight",
+      })
     end,
   },
 }
