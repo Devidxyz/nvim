@@ -147,13 +147,13 @@ M.toggleterm = {
     },
     ["<A-f>"] = {
       function()
-        require("uilts.lazygit_toggle").lazygit_toggle()
+        require("utils.toggle_apps").lazygit_toggle()
       end,
       "Toggle lazygit",
     },
     ["<A-o>"] = {
       function()
-        require("utils.lazygit_toggle").loggo_toggle()
+        require("utils.toggle_apps").loggo_toggle()
       end,
       "Toggle loggo",
     },
@@ -169,13 +169,13 @@ M.toggleterm = {
     },
     ["<A-f>"] = {
       function()
-        require("utils.lazygit_toggle").lazygit_toggle()
+        require("utils.toggle_apps").lazygit_toggle()
       end,
       "Toggle lazygit",
     },
     ["<A-o>"] = {
       function()
-        require("utils.lazygit_toggle").loggo_toggle()
+        require("utils.toggle_apps").loggo_toggle()
       end,
       "Toggle loggo",
     },
