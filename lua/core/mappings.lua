@@ -228,12 +228,15 @@ M.bufferline = {
       "<cmd>BufferLineGoToBuffer 8<CR>",
       "Goto 8. buffer",
     },
-
     ["<leader>x"] = {
       function()
         require("bufdelete").bufdelete(0)
       end,
       "Close buffer",
+    },
+    ["<leader>X"] = {
+      "<cmd>%Bd | e#<CR>",
+      "Close all other buffers",
     },
     ["<A-x>"] = {
       function()
@@ -355,7 +358,7 @@ M.lspconfig = {
     },
     ["<leader>fa"] = { -- legacy, because habit
       function()
-        require("fzf-lua").files()
+        require("fzf-lua").files({ cmd = "fd --color=never --type f --hidden --follow --no-ignore" })
       end,
       "Find files",
     },
@@ -402,13 +405,13 @@ M.grep = {
     },
     ["<leader>ga"] = {
       function()
-        require("fzf-lua").live_grep()
+        require("fzf-lua").live_grep_native()
       end,
       "Live grep current project",
     },
     ["<leader>gr"] = {
       function()
-        require("fzf-lua").live_grep_resume()
+        require("fzf-lua").resume()
       end,
       "Grep resume",
     },
@@ -421,6 +424,18 @@ M.grep = {
     ["<leader>gh"] = {
       function()
         require("fzf-lua").builtin()
+      end,
+      "Grep curren word",
+    },
+    ["<leader>pp"] = {
+      function()
+        require("fzf-lua").commands()
+      end,
+      "Grep vim commands",
+    },
+    ["<leader>km"] = { -- similar to VSCode
+      function()
+        require("fzf-lua").filetypes()
       end,
       "Grep curren word",
     },
