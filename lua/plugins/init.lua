@@ -416,10 +416,11 @@ local plugins = {
   },
 
   -- multi cursor support
-  {
-    "mg979/vim-visual-multi",
-    event = { "BufReadPost", "BufNewFile" },
-  },
+  -- disabled because it messes up my mappings
+  -- {
+  --   "mg979/vim-visual-multi",
+  --   event = { "BufReadPost", "BufNewFile" },
+  -- },
 
   -- open in github
   {
