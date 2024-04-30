@@ -275,6 +275,12 @@ M.telescope = {
 -- lsp custom shortcuts
 M.lspconfig = {
   n = {
+    ["<leader>ra"] = {
+      function()
+        require("utils.renamer").open()
+      end,
+      "LSP rename",
+    },
     ["gd"] = {
       function()
         require("fzf-lua").lsp_definitions()
