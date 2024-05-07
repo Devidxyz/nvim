@@ -475,7 +475,7 @@ local plugins = {
   -- git
   {
     "lewis6991/gitsigns.nvim",
-    event = "User FilePost",
+    event = "BufReadPost",
     opts = function()
       return require("plugins.others").gitsigns
     end,
