@@ -37,7 +37,7 @@ M.gitsigns = {
     untracked = { text = "│" },
   },
   on_attach = function(bufnr)
-    utils.load_mappings("gitsigns", { buffer = bufnr })
+    require("core.utils").load_mappings("gitsigns", { buffer = bufnr })
   end,
 }
 
