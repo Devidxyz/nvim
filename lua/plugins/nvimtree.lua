@@ -19,8 +19,16 @@ local options = {
     preserve_window_proportions = true,
   },
   git = {
-    enable = false,
+    enable = true,
     ignore = true,
+    show_on_dirs = true,
+  },
+  modified = {
+    enable = true,
+  },
+  diagnostics = {
+    enable = true,
+    show_on_dirs = true,
   },
   filesystem_watchers = {
     enable = true,
@@ -32,8 +40,8 @@ local options = {
   },
   renderer = {
     root_folder_label = false,
-    highlight_git = false,
-    highlight_opened_files = "none",
+    highlight_git = true,
+    -- highlight_opened_files = "none",
 
     indent_markers = {
       enable = false,
@@ -44,7 +52,7 @@ local options = {
         file = true,
         folder = true,
         folder_arrow = true,
-        git = false,
+        git = true,
       },
 
       glyphs = {
@@ -61,11 +69,11 @@ local options = {
           arrow_closed = "",
         },
         git = {
-          unstaged = "✗",
+          unstaged = "✗", -- alternative: !
           staged = "✓",
           unmerged = "",
           renamed = "➜",
-          untracked = "★",
+          untracked = "★", -- alternative: ?
           deleted = "",
           ignored = "◌",
         },

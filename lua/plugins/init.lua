@@ -126,6 +126,7 @@ local plugins = {
         "gopls",
         "golines",
         "goimports",
+        "pg_format",
       },
       PATH = "skip",
 
@@ -226,36 +227,6 @@ local plugins = {
   -- file explorer
   {
     "nvim-tree/nvim-tree.lua",
-    opts = {
-      git = {
-        enable = true,
-        ignore = true,
-        show_on_dirs = true,
-      },
-      modified = {
-        enable = true,
-      },
-      diagnostics = {
-        enable = true,
-        show_on_dirs = true,
-      },
-      renderer = {
-        highlight_git = true,
-        -- highlight_opened_files = "name",
-        icons = {
-          show = {
-            git = true,
-          },
-          glyphs = {
-            git = {
-              unstaged = "!",
-              -- staged = "S",
-              untracked = "?",
-            },
-          },
-        },
-      },
-    },
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     init = function()
       require("core.utils").load_mappings("nvimtree")

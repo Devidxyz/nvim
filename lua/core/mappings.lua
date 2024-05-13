@@ -9,6 +9,7 @@ M.general = {
     ["N"] = { "Nzzzv", "Jump to previous result and center cursor" },
     ["Q"] = { "<cmd> qa <CR>", "Quit all (qa)" },
     ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
+    ["<C-a>"] = { "<cmd> noa w <CR>", "Save file without formatting" },
 
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
     -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
