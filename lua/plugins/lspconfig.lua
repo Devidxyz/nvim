@@ -112,4 +112,19 @@ lspconfig.gopls.setup({
 
 lspconfig.eslint.setup({})
 
+lspconfig.pylsp.setup({
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+  filetypes = { "python", "tiltfile" },
+  settings = {
+    pylsp = {
+      plugins = {
+        pycodestyle = {
+          maxLineLength = 80,
+        },
+      },
+    },
+  },
+})
+
 return M
