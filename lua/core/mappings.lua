@@ -634,4 +634,13 @@ M.gitsigns = {
   },
 }
 
+M.dbui = {
+  n = {
+    ["<CR>"] = { "vip<Plug>(DBUI_ExecuteQuery)", "Execute selected query" },
+  },
+  v = {
+    ["<CR>"] = { "<Plug>(DBUI_ExecuteQuery)", "Execute selected query" },
+  },
+}
+
 return M

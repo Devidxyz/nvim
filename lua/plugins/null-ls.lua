@@ -7,9 +7,10 @@ local sources = {
   formatting.prettier,
   formatting.stylua,
   formatting.mix,
-  -- formatting.gofumpt,
+  formatting.gofmt,
+  formatting.goimports,
   formatting.goimports_reviser,
-  formatting.golines,
+  -- formatting.golines,
   formatting.nixpkgs_fmt,
   formatting.pg_format,
 
