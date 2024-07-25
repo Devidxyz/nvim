@@ -222,17 +222,6 @@ local plugins = {
   --   },
   -- },
 
-  -- markdown preview
-  {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle" },
-    build = "cd app && yarn install",
-    init = function()
-      vim.g.mkdp_filetypes = { "markdown" }
-    end,
-    ft = { "markdown" },
-  },
-  { "ellisonleao/glow.nvim",          config = true, cmd = "Glow" },
   -- file explorer
   {
     "nvim-tree/nvim-tree.lua",
@@ -339,33 +328,6 @@ local plugins = {
     dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
     config = function(_, opts)
       require("dapui").setup(opts)
-    end,
-  },
-
-  -- minimap
-  {
-    "wfxr/minimap.vim",
-    build = "cargo install --locked code-minimap",
-    -- lazy = false,
-    cmd = { "Minimap", "MinimapClose", "MinimapToggle", "MinimapRefresh", "MinimapUpdateHighlight" },
-    init = function()
-      vim.cmd("let g:minimap_width = 10")
-      vim.cmd("let g:minimap_auto_start = 0")
-      vim.cmd("let g:minimap_auto_start_win_enter = 1")
-    end,
-  },
-
-  -- vim in browser
-  {
-    "glacambre/firenvim",
-    -- Lazy load firenvim
-    -- Explanation: https://github.com/folke/lazy.nvim/discussions/463#discussioncomment-4819297
-    lazy = not vim.g.started_by_firenvim,
-    build = function()
-      vim.fn["firenvim#install"](0)
-    end,
-    config = function()
-      vim.g.firenvim_config.globalSettings = { takeover = "never" }
     end,
   },
 
