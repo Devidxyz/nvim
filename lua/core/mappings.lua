@@ -126,15 +126,6 @@ M.nvimtree = {
   },
 }
 
-M.minimap = {
-  n = {
-    ["<A-m>"] = { "<cmd> MinimapToggle <CR>", "Toggle minimap" },
-    ["<leader>mr"] = { "<cmd> MinimapRefresh <CR>", "Refresh minimap" },
-    ["<leader>mc"] = { "<cmd> MinimapClose <CR>", "Close minimap" },
-    ["<leader>mh"] = { "<cmd> MinimapUpdateHighlight <CR>", "Update minimap highlight" },
-  },
-}
-
 -- [Ctrl + j] to toggle terminal
 M.toggleterm = {
   t = {
