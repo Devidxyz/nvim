@@ -1,6 +1,6 @@
 local cmp = require("cmp")
 
-dofile(vim.g.base46_cache .. "cmp")
+-- dofile(vim.g.base46_cache .. "cmp")
 
 local icons = {
   Array = "[]",

@@ -1,4 +1,4 @@
-dofile(vim.g.base46_cache .. "lsp")
+-- dofile(vim.g.base46_cache .. "lsp")
 
 local M = {}
 local utils = require("core.utils")

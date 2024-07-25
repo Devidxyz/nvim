@@ -2,13 +2,13 @@ local plugins = {
   -- "All the lua functions I don't want to write twice"
   "nvim-lua/plenary.nvim",
 
-  {
-    "NvChad/base46",
-    branch = "v2.0",
-    build = function()
-      require("base46").load_all_highlights()
-    end,
-  },
+  -- {
+  --   "NvChad/base46",
+  --   branch = "v2.0",
+  --   build = function()
+  --     require("base46").load_all_highlights()
+  --   end,
+  -- },
 
   {
     "norcalli/nvim-colorizer.lua",
@@ -56,7 +56,7 @@ local plugins = {
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     build = ":TSUpdate",
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "syntax")
+      -- dofile(vim.g.base46_cache .. "syntax")
       require("nvim-treesitter.configs").setup(opts)
     end,
   },
@@ -233,7 +233,6 @@ local plugins = {
     ft = { "markdown" },
   },
   { "ellisonleao/glow.nvim",          config = true, cmd = "Glow" },
-
   -- file explorer
   {
     "nvim-tree/nvim-tree.lua",
@@ -245,7 +244,7 @@ local plugins = {
       return require("plugins.nvimtree")
     end,
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "nvimtree")
+      -- dofile(vim.g.base46_cache .. "nvimtree")
       require("nvim-tree").setup(opts)
     end,
   },
@@ -262,7 +261,7 @@ local plugins = {
       return require("plugins.telescope")
     end,
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "telescope")
+      -- dofile(vim.g.base46_cache .. "telescope")
       local telescope = require("telescope")
       telescope.setup(opts)
 
@@ -469,7 +468,7 @@ local plugins = {
       return require("plugins.others").gitsigns
     end,
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "git")
+      -- dofile(vim.g.base46_cache .. "git")
       require("gitsigns").setup(opts)
     end,
   },
