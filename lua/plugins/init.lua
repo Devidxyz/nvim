@@ -274,7 +274,7 @@ local plugins = {
   {
     "akinsho/bufferline.nvim",
     lazy = false,
-    version = "v4.6.1",
+    tag = "v4.7.0",
     opts = {
       options = {
         numbers = "ordinal",
