@@ -261,15 +261,6 @@ local plugins = {
     end,
   },
 
-  -- don't know if this is working
-  -- {
-  --   "tiagovla/scope.nvim",
-  --   lazy = false,
-  --   config = function(_, opts)
-  --     require("scope").setup(opts)
-  --   end,
-  -- },
-
   -- tabs
   {
     "akinsho/bufferline.nvim",
