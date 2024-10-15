@@ -9,7 +9,7 @@ local sources = {
   formatting.mix,
   formatting.gofmt,
   formatting.goimports,
-  formatting.goimports_reviser,
+  -- formatting.goimports_reviser,
   -- formatting.golines,
   formatting.nixpkgs_fmt,
   formatting.pg_format,
