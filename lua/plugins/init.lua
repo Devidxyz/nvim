@@ -115,6 +115,8 @@ local plugins = {
               { name = "vim-dadbod-completion" },
             },
           })
+          -- fix codeium code suggestion accept in sql files
+          vim.keymap.del("i", "<right>", { buffer = true })
         end,
       })
     end,
