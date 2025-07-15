@@ -43,18 +43,18 @@ M.capabilities.textDocument.completion.completionItem = {
 local lspconfig = require("lspconfig")
 local util = require("lspconfig/util")
 
-local servers = {
-  "tsserver",
-  "eslint",
-  "pylsp",
-}
-
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup({
-    on_attach = M.on_attach,
-    capabilities = M.capabilities,
-  })
-end
+-- local servers = {
+--   "ts_ls",
+--   "eslint",
+--   "pylsp",
+-- }
+--
+-- for _, lsp in ipairs(servers) do
+--   lspconfig[lsp].setup({
+--     on_attach = M.on_attach,
+--     capabilities = M.capabilities,
+--   })
+-- end
 
 lspconfig.lua_ls.setup({
   on_init = M.on_init,
@@ -86,7 +86,7 @@ lspconfig.elixirls.setup({
   capabilities = M.capabilities,
 })
 
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
   cmd = { "typescript-language-server", "--stdio" },
   on_attach = M.on_attach,
   capabilities = M.capabilities,

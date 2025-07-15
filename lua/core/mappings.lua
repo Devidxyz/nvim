@@ -29,7 +29,7 @@ M.general = {
   },
 
   i = {
-    ["<C-s>"] = { "<cmd> w <CR>", "Scroll windows upwards and center cursor" },
+    ["<C-s>"] = { "<cmd> w <CR>", "Save" },
   },
 
   t = {
@@ -423,7 +423,7 @@ M.grep = {
       function()
         require("fzf-lua").builtin()
       end,
-      "Grep curren word",
+      "Grep help",
     },
     ["<leader>pp"] = {
       function()
@@ -435,7 +435,7 @@ M.grep = {
       function()
         require("fzf-lua").filetypes()
       end,
-      "Grep curren word",
+      "Pick file type",
     },
   },
   v = {
@@ -450,13 +450,19 @@ M.grep = {
 
 M.tmux = {
   n = {
-    ["<C-Space>"] = { "", "prefix" },
-    ["<C-Left>"] = { "", "next window" },
-    ["<C-Right>"] = { "", "previous windows" },
-    ["<C-t>"] = { "", "new windows" },
-    ["<A-s>"] = { "", "vertical split" },
-    ["<A-d>"] = { "", "horizontal split" },
-    ["<A-S-w>"] = { "", "kill pane" },
+    ["<C-Space>"] = { "", "unmap prefix" },
+    ["<C-Left>"] = { "", "unmap next window" },
+    ["<C-Right>"] = { "", "unmap previous windows" },
+    ["<C-t>"] = { "", "unmap new windows" },
+    ["<A-s>"] = { "", "unmap vertical split" },
+    ["<A-d>"] = { "", "unmap horizontal split" },
+    ["<A-S-w>"] = { "", "unmap kill pane" },
+  },
+  t = {
+    ["<C-h>"] = { "", "unmap avigation with ctrl" },
+    ["<C-j>"] = { "", "unmap avigation with ctrl" },
+    ["<C-k>"] = { "", "unmap avigation with ctrl" },
+    ["<C-l>"] = { "<C-l>", "navigation with ctrl" },
   },
 }
 

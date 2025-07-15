@@ -185,7 +185,7 @@ local plugins = {
     event = "User FilePost",
 
     dependencies = {
-      "jose-elias-alvarez/null-ls.nvim",
+      "nvimtools/none-ls.nvim",
       config = function()
         require("plugins.null-ls")
       end,

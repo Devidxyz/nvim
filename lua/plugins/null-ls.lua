@@ -14,7 +14,7 @@ local sources = {
   formatting.nixpkgs_fmt,
   formatting.pg_format,
 
-  lint.shellcheck,
+  -- lint.shellcheck,
 }
 
 -- format on save - https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save
