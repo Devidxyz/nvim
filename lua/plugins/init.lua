@@ -412,6 +412,7 @@ local plugins = {
       require("catppuccin").setup({
         flavour = "mocha",
         transparent_background = false,
+        term_colors = true,
       })
     end,
   },

@@ -99,4 +99,4 @@ require("lazy").setup(plugins)
 
 ---------------------------------------- theme -------------------------------------------
 
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("catppuccin-nvim")
