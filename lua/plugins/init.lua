@@ -462,6 +462,9 @@ local plugins = {
       -- Your DBUI configuration
       vim.g.db_ui_use_nerd_fonts = 1
 
+      -- Stop Debian's pg_wrapper warning when psql gets a connection URL
+      vim.env.PGPORT = vim.env.PGPORT or "5432"
+
       require("core.utils").load_mappings("dbui")
     end,
   },
