@@ -1,62 +1,27 @@
--- dofile(vim.g.base46_cache .. "lsp")
-
 local M = {}
 local utils = require("core.utils")
+local util = require("lspconfig.util")
 
--- export on_attach & capabilities for custom lspconfigs
+-- on_attach
 M.on_attach = function(client, bufnr)
   utils.load_mappings("lspconfig", { buffer = bufnr })
-
-  -- TODO
-  -- if client.server_capabilities.signatureHelpProvider then
-  --   require("nvchad.signature").setup(client)
-  -- end
 end
 
 -- disable semantic tokens
-M.on_init = function(client, _)
+M.on_init = function(client)
   if client.supports_method("textDocument/semanticTokens") then
     client.server_capabilities.semanticTokensProvider = nil
   end
 end
 
+-- capabilities
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 
-M.capabilities.textDocument.completion.completionItem = {
-  documentationFormat = { "markdown", "plaintext" },
-  snippetSupport = true,
-  preselectSupport = true,
-  insertReplaceSupport = true,
-  labelDetailsSupport = true,
-  deprecatedSupport = true,
-  commitCharactersSupport = true,
-  tagSupport = { valueSet = { 1 } },
-  resolveSupport = {
-    properties = {
-      "documentation",
-      "detail",
-      "additionalTextEdits",
-    },
-  },
-}
+--------------------------------------------------
+-- LUA
+--------------------------------------------------
 
-local lspconfig = require("lspconfig")
-local util = require("lspconfig/util")
-
--- local servers = {
---   "ts_ls",
---   "eslint",
---   "pylsp",
--- }
---
--- for _, lsp in ipairs(servers) do
---   lspconfig[lsp].setup({
---     on_attach = M.on_attach,
---     capabilities = M.capabilities,
---   })
--- end
-
-lspconfig.lua_ls.setup({
+vim.lsp.config("lua_ls", {
   on_init = M.on_init,
   on_attach = M.on_attach,
   capabilities = M.capabilities,
@@ -68,36 +33,27 @@ lspconfig.lua_ls.setup({
       },
       workspace = {
         library = {
-          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-          [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-          [vim.fn.stdpath("data") .. "/lazy/ui/nvchad_types"] = true,
-          [vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy"] = true,
+          vim.env.VIMRUNTIME,
+          vim.fn.stdpath("config"),
         },
-        maxPreload = 100000,
-        preloadFileSize = 10000,
       },
     },
   },
 })
 
-lspconfig.elixirls.setup({
-  cmd = { "elixir-ls" },
-  on_attach = M.on_attach,
-  capabilities = M.capabilities,
-})
+--------------------------------------------------
+-- GO
+--------------------------------------------------
 
-lspconfig.ts_ls.setup({
-  cmd = { "typescript-language-server", "--stdio" },
+vim.lsp.config("gopls", {
+  on_init = M.on_init,
   on_attach = M.on_attach,
   capabilities = M.capabilities,
-})
 
-lspconfig.gopls.setup({
-  on_attach = M.on_attach,
-  capabilities = M.capabilities,
   cmd = { "gopls" },
+
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
-  root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+
   settings = {
     gopls = {
       completeUnimported = true,
@@ -106,18 +62,60 @@ lspconfig.gopls.setup({
         unusedparams = true,
         unusedresult = true,
       },
-      gofumpt = false,
-      -- staticcheck = true,
+      -- gofumpt = true,
     },
   },
 })
 
-lspconfig.eslint.setup({})
+--------------------------------------------------
+-- ELIXIR
+--------------------------------------------------
 
-lspconfig.pylsp.setup({
+vim.lsp.config("elixirls", {
+  cmd = { "elixir-ls" },
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+})
+
+--------------------------------------------------
+-- TYPESCRIPT
+--------------------------------------------------
+
+local vue_plugin = {
+  name = '@vue/typescript-plugin',
+  location = '/home/david/.local/share/nvim/mason/bin/vue-language-server',
+  languages = { 'vue' },
+  configNamespace = 'typescript',
+}
+
+vim.lsp.config("ts_ls", {
+  cmd = { "typescript-language-server", "--stdio" },
+  filetypes = { "typescript", "javascript", "vue" },
+  on_attach = M.on_attach,
+  capabilities = M.capabilities,
+  init_options = {
+    plugins = {
+      vue_plugin,
+    }
+  }
+})
+
+vim.lsp.config('vue_ls', {
+  cmd = { 'vue-language-server', '--stdio' },
+  filetypes = { 'vue' },
+  on_attach = M.on_attach,
+  capabilities = M.capabilities
+})
+
+--------------------------------------------------
+-- PYTHON
+--------------------------------------------------
+
+vim.lsp.config("pylsp", {
   on_attach = M.on_attach,
   capabilities = M.capabilities,
   filetypes = { "python", "tiltfile" },
+
   settings = {
     pylsp = {
       plugins = {
@@ -129,9 +127,47 @@ lspconfig.pylsp.setup({
   },
 })
 
--- rounded corners
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
-vim.diagnostic.config({ float = { border = "rounded" } })
+--------------------------------------------------
+-- ESLINT
+--------------------------------------------------
+
+vim.lsp.config("eslint", {})
+
+--------------------------------------------------
+-- ENABLE SERVERS
+--------------------------------------------------
+
+vim.lsp.enable({
+  "lua_ls",
+  "gopls",
+  "elixirls",
+  "pylsp",
+  "ts_ls",
+  "vue_ls",
+  "eslint",
+  "ccls",
+})
+
+--------------------------------------------------
+-- UI
+--------------------------------------------------
+
+local function with_rounded_border(handler)
+  return function(err, result, ctx, config)
+    config = config or {}
+    config.border = "rounded"
+    return handler(err, result, ctx, config)
+  end
+end
+
+vim.lsp.handlers["textDocument/hover"] =
+  with_rounded_border(vim.lsp.handlers.hover)
+
+vim.lsp.handlers["textDocument/signatureHelp"] =
+  with_rounded_border(vim.lsp.handlers.signature_help)
+
+vim.diagnostic.config({
+  float = { border = "rounded" },
+})
 
 return M

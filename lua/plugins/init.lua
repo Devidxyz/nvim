@@ -26,6 +26,10 @@ local plugins = {
   -- syntax highlight
   {
     "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    event = { "BufReadPost", "BufNewFile" },
+    branch = 'master',
+    cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     opts = {
       ensure_installed = {
         -- defaults
@@ -52,11 +56,7 @@ local plugins = {
       },
       indent = { enable = true },
     },
-    event = { "BufReadPost", "BufNewFile" },
-    cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
-    build = ":TSUpdate",
     config = function(_, opts)
-      -- dofile(vim.g.base46_cache .. "syntax")
       require("nvim-treesitter.configs").setup(opts)
     end,
   },
@@ -182,7 +182,7 @@ local plugins = {
   -- lspconfig
   {
     "neovim/nvim-lspconfig",
-    event = "User FilePost",
+    event = { "BufReadPre", "BufNewFile" },
 
     dependencies = {
       "nvimtools/none-ls.nvim",
@@ -353,6 +353,11 @@ local plugins = {
           fzf = {
             ["ctrl-d"] = "preview-page-down",
             ["ctrl-u"] = "preview-page-up",
+          },
+        },
+        winopts = {
+          preview = {
+            layout = "vertical",
           },
         },
       })
